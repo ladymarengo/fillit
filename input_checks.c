@@ -69,24 +69,24 @@ int	ft_check_tetros(char *s)
 	return (1);
 }
 
-int main(int argc, char **argv)
-{
-    int		chars;
-    int file;
-    char	*buffer = (char *)malloc(sizeof(char) * 1000);
-	int ret = 0;
+// int main(int argc, char **argv)
+// {
+//     int		chars;
+//     int file;
+//     char	*buffer = (char *)malloc(sizeof(char) * 1000);
+// 	int ret = 0;
 
-    file = open(argv[1], O_RDONLY);
-    chars = read(file, buffer, 1000);
-    buffer[chars] = '\0';
-	if (ft_linesandchar(buffer) != 1 || ft_check_tetros(buffer) != 1)
-		printf ("invalid input");
-    close(file);
-//    t_tetr *tetrimino = parse_input(buffer);
-//    for (int i = 0; i < (ft_strlen(buffer) + 1) / 21; i++)
-//    {
-//        print_tetrimino(tetrimino[i]);
-//        ft_putchar('\n');
-//    }
-    return (0);
-}
+//     file = open(argv[1], O_RDONLY);
+//     chars = read(file, buffer, 1000);
+//     buffer[chars] = '\0';
+// 	if (ft_linesandchar(buffer) != 1 || ft_check_tetros(buffer) != 1)
+// 		printf ("invalid input");
+//     close(file);
+// //    t_tetr *tetrimino = parse_input(buffer);
+// //    for (int i = 0; i < (ft_strlen(buffer) + 1) / 21; i++)
+// //    {
+// //        print_tetrimino(tetrimino[i]);
+// //        ft_putchar('\n');
+// //    }
+//     return (0);
+// }

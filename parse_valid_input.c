@@ -1,14 +1,7 @@
-#include "libft/libft.h"
-#include <unistd.h>
-#include <sys/stat.h>
-#include <fcntl.h>
+#include "fillit.h"
 
-typedef struct s_tetr
-{
-	char	**grid;
-}	t_tetr;
 
-int	copy_tetr(char *buffer, int index, t_tetr *tetr)
+int	copy_tetr(char *buffer, int index, t_tetr *tetr, int i)
 {
 	int	row;
 	int	letter;
@@ -28,6 +21,7 @@ int	copy_tetr(char *buffer, int index, t_tetr *tetr)
 		index++;
 		row++;
 	}
+	tetr->symbol = 'A' + i;
 	return (index);
 }
 
@@ -44,14 +38,14 @@ t_tetr	*parse_input(char *buffer)
 	tetriminos = (t_tetr *)malloc(sizeof(t_tetr) * amount);
 	while (i < amount)
 	{
-		index = copy_tetr(buffer, index, &(tetriminos[i]));
+		index = copy_tetr(buffer, index, &(tetriminos[i]), i);
 		index++;
 		i++;
 	}
 	return (tetriminos);
 }
 
-/*void    print_tetrimino(t_tetr tetr) 
+void    print_tetrimino(t_tetr tetr) 
 {
     int i = 0;
     int j = 0;
@@ -69,20 +63,20 @@ t_tetr	*parse_input(char *buffer)
     }
 }
 
-int main(int argc, char **argv)
-{
-    int		chars;
-    int file;
-    char	*buffer = (char *)malloc(sizeof(char) * 1000);
-    file = open(argv[1], O_RDONLY);
-    chars = read(file, buffer, 1000);
-    buffer[chars] = '\0';
-    close(file);
-    t_tetr *tetrimino = parse_input(buffer);
-    for (int i = 0; i < (ft_strlen(buffer) + 1) / 21; i++)
-    {
-        print_tetrimino(tetrimino[i]);
-        ft_putchar('\n');
-    }
-    return (0);
-}*/
+// int main(int argc, char **argv)
+// {
+//     int		chars;
+//     int file;
+//     char	*buffer = (char *)malloc(sizeof(char) * 1000);
+//     file = open(argv[1], O_RDONLY);
+//     chars = read(file, buffer, 1000);
+//     buffer[chars] = '\0';
+//     close(file);
+//     t_tetr *tetrimino = parse_input(buffer);
+//     for (int i = 0; i < (ft_strlen(buffer) + 1) / 21; i++)
+//     {
+//         print_tetrimino(tetrimino[i]);
+//         ft_putchar('\n');
+//     }
+//     return (0);
+// }
