@@ -25,9 +25,10 @@ int	copy_tetr(char *buffer, int index, t_tetr *tetr, int i)
 	return (index);
 }
 
-t_tetr	*parse_input(char *buffer)
+t_tetr_array	parse_input(char *buffer)
 {
 	t_tetr	*tetriminos;
+	t_tetr_array array;
 	int		i;
 	int		index;
 	int		amount;
@@ -35,14 +36,16 @@ t_tetr	*parse_input(char *buffer)
 	i = 0;
 	index = 0;
 	amount = (ft_strlen(buffer) + 1) / 21;
-	tetriminos = (t_tetr *)malloc(sizeof(t_tetr) * amount);
+	tetriminos = (t_tetr *)malloc(sizeof(t_tetr) * amount + 1);
 	while (i < amount)
 	{
 		index = copy_tetr(buffer, index, &(tetriminos[i]), i);
 		index++;
 		i++;
 	}
-	return (tetriminos);
+	array.array = tetriminos;
+	array.size = amount;
+	return (array);
 }
 
 void    print_tetrimino(t_tetr tetr) 

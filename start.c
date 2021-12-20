@@ -5,6 +5,11 @@ void print_matrix(t_matrix matrix)
     int i = 0;
     int j = 0;
 
+	if (!matrix.grid)
+	{
+		printf("oh no\n");
+		return ;
+	}
     while (i < matrix.size)
     {
         j = 0;
@@ -66,7 +71,7 @@ void solve(t_tetr *tetros)
 	print_matrix(matrix);
 	solution = NULL;
 	solution = save_solution(matrix, solution);
-	printf("%d, %d\n", solution->height, solution->width);
+	printf("%d\n", solution->size);
 //	printf("TL: %d,BL: %d \n", solution->top_left, solution->bottom_left, solution->top_right);
 
 	// printf("%d\n", place_tetro(start, &matrix, tetros[0]));
@@ -98,12 +103,16 @@ int main(int argc, char **argv)
     chars = read(file, buffer, 1000);
     buffer[chars] = '\0';
     close(file);
-    t_tetr *tetrimino = parse_input(buffer);
+    t_tetr_array tetrimino = parse_input(buffer);
     for (int i = 0; i < (ft_strlen(buffer) + 1) / 21; i++)
     {
-        print_tetrimino(tetrimino[i]);
+        print_tetrimino(tetrimino.array[i]);
         ft_putchar('\n');
     }
-	solve(tetrimino);
+	//solve(tetrimino);
+	t_solution *solution;
+	solution = NULL;
+	find_best(&tetrimino, 16, solution);
+	print_matrix(solution->matrix);
     return (0);
 }

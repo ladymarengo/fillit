@@ -69,6 +69,12 @@ int	ft_check_tetros(char *s)
 	return (1);
 }
 
+// void print_error(char *str)
+// {
+// 	write (2, &str, ft_strlen(str));
+// 	str++;
+// }
+
 // int main(int argc, char **argv)
 // {
 //     int		chars;

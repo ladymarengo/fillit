@@ -4,15 +4,103 @@
 t_solution	*save_solution(t_matrix matrix, t_solution *prevsolution)
 {
 	t_solution *new;
+	new = (t_solution *)malloc(sizeof (t_solution));
+
+	new->size = calculate_size(matrix);
+	calculate_corners(matrix, new);
+	
+	if (!prevsolution || new->size < prevsolution->size)
+	{
+		return (new);
+	}
+	return (prevsolution);
+}
+
+/* find best solution */
+
+void find_best(t_tetr_array *tetriminos, int size, t_solution *prev)
+{
+	t_matrix new;
+	t_action action;
+	int i;
+
+	action.point.row = 0;
+	action.point.column = 0;
+	action.index = 0;
+	action.placed = (int *)malloc(sizeof(int) * tetriminos.size);
+	new = create_matrix(size);
+	put_tetrimino(tetriminos, new, action, prev);
+}
+
+void put_tetrimino(t_tetr_array *tetriminos, t_matrix matrix, t_action action, t_solution *prev)
+{
+	t_matrix new;
+	t_point next;
+	t_action next_action;
+	int i;
+
+	new = copy_matrix(matrix);
+	printf("%d %d\n", action.index, tetriminos->size);
+	
+	
+	while (!place_tetro(action.point, &new, tetriminos->array[action.index]))
+	{
+		action.point = get_next_coordinate(new, action.point.row, action.point.column);
+	}
+	if (action.index + 1 >= tetriminos->size)
+	{
+		printf("saving\n");
+		prev = save_solution(new, prev);
+	}
+	else 
+	{
+		next_action.point = get_next_coordinate(new, 0, 0);
+		i = action.index + 1;
+		while (i < tetriminos->size)
+		{
+			next_action.index = i;
+			put_tetrimino(tetriminos, new, next_action, prev);
+			i++;
+		}
+	}
+}
+
+//4*3*2*1
+
+t_matrix copy_matrix(t_matrix old)
+{
+    t_matrix new;
+
+    int i = 0;
+    int j = 0;
+
+    new.grid = (char **)malloc(sizeof(char *) * old.size);
+	new.size = old.size;
+    while (i < new.size)
+    {
+        j = 0;
+		new.grid[i] = (char *)malloc(sizeof(char) * new.size);
+        while (j < new.size)
+        {
+            new.grid[i][j] = old.grid[i][j];
+            j++;
+        }
+        i++;
+    }
+    return (new);
+}
+
+/*calculate size of solution*/
+int	calculate_size(t_matrix matrix)
+{
 	int	i;
 	int j;
+	int size;
 	int countheight;
 	int countwidth;
 
+	size = 0;
 	j = matrix.size - 1;
-	new = (t_solution *)malloc(sizeof (t_solution));
-	new->height = 0;
-	new->width = 0;
 	while (j >= 0)
 	{
 		i = matrix.size - 1;
@@ -22,8 +110,8 @@ t_solution	*save_solution(t_matrix matrix, t_solution *prevsolution)
 			i--;
 			countwidth--;
 		}
-		if (countwidth > new->width)
-			new->width = countwidth;
+		if (countwidth > size)
+			size = countwidth;
 		j--;
 	}
 	i = matrix.size - 1;
@@ -36,18 +124,11 @@ t_solution	*save_solution(t_matrix matrix, t_solution *prevsolution)
 			j--;
 			countheight--;
 		}
-		if (countheight > new->height)
-			new->height = countheight;
+		if (countheight > size)
+			size = countheight;
 		i--;
 	}
-	calculate_corners(matrix, new);
-	if (new->height > new->width)
-		new->size = new->height;
-	else
-		new->size = new->width;
-	if (!prevsolution || new->size < prevsolution->size)
-		return (new);
-	return (prevsolution);
+	return (size);
 }
 
 /*calculating most topleft */
