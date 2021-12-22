@@ -1,88 +1,206 @@
 #include "fillit.h"
 
 /* solution storage */
-t_solution	*save_solution(t_matrix matrix, t_solution *prevsolution)
+void	save_solution(t_matrix matrix, t_solution *solution)
 {
-	t_solution *new;
-	new = (t_solution *)malloc(sizeof (t_solution));
+	solution = (t_solution *)malloc(sizeof (t_solution));
 
-	new->size = calculate_size(matrix);
-	calculate_corners(matrix, new);
-	
-	if (!prevsolution || new->size < prevsolution->size)
-	{
-		return (new);
-	}
-	return (prevsolution);
+	solution->matrix = matrix;
 }
 
 /* find best solution */
 
-void find_best(t_tetr_array *tetriminos, int size, t_solution *prev)
+int find_best(t_tetr_array *tetriminos, int size, t_solution *solution)
 {
-	t_matrix new;
-	t_action action;
-	int i;
+	t_matrix *new;
+	t_point start;
+	int result = 0;
+	int i = 0;
 
-	action.point.row = 0;
-	action.point.column = 0;
-	action.index = 0;
-	action.placed = (int *)malloc(sizeof(int) * tetriminos.size);
-	new = create_matrix(size);
-	put_tetrimino(tetriminos, new, action, prev);
+	
+	
+	start.row = 0;
+	start.column = 0;
+	//while (i < tetriminos->size)
+	while (i < 1)
+	{
+		new = create_matrix(size * 2);
+		result = place_tetro(start, new, tetriminos->array[i]);
+		if (result == 1)
+		{
+			//print_matrix(*new);
+			int *placed = create_placed(tetriminos->size);
+			placed = update_placed(placed, i, tetriminos->size);
+			result = put_tetrimino(tetriminos, new, size, placed, solution);
+			if (result == 1)
+				return (1);
+		}
+		i++;
+	}
+	return (0);
 }
 
-void put_tetrimino(t_tetr_array *tetriminos, t_matrix matrix, t_action action, t_solution *prev)
+int put_tetrimino(t_tetr_array *tetriminos, t_matrix *matrix, int size, int *placed, t_solution *solution)
 {
-	t_matrix new;
+	int i = 0;
+	int result;
+	int if_solution;
 	t_point next;
-	t_action next_action;
-	int i;
+	t_matrix *new;
+	int *new_placed;
 
-	new = copy_matrix(matrix);
-	printf("%d %d\n", action.index, tetriminos->size);
-	
-	
-	while (!place_tetro(action.point, &new, tetriminos->array[action.index]))
+
+	while (i < tetriminos->size) 
 	{
-		action.point = get_next_coordinate(new, action.point.row, action.point.column);
-	}
-	if (action.index + 1 >= tetriminos->size)
-	{
-		printf("saving\n");
-		prev = save_solution(new, prev);
-	}
-	else 
-	{
-		next_action.point = get_next_coordinate(new, 0, 0);
-		i = action.index + 1;
-		while (i < tetriminos->size)
+		result = 0;
+		next.row = 0;
+		next.column = 0;
+		if (!if_placed(i, placed, tetriminos->size))
 		{
-			next_action.index = i;
-			put_tetrimino(tetriminos, new, next_action, prev);
-			i++;
+			new = copy_matrix(matrix);
+			while (!result)
+			{
+				//ft_putnbr(i);
+				//ft_putendl("here");
+				result = place_tetro(next, new, tetriminos->array[i]);
+				next = get_next_coordinate(*new, next.row, next.column);
+			}
+			new_placed = update_placed(placed, i, tetriminos->size);
+			//ft_putnbr(calculate_size(*new));
+			//ft_putendl("size");
+			ft_putnbr(size);
+			ft_putendl("");
+			print_matrix(*new);
+			if (calculate_size(*new) <= size)
+			{
+				if (all_placed(new_placed, tetriminos->size) == 1)
+				{
+					save_solution(*new, solution);
+					return (1);
+				}
+				if_solution = put_tetrimino(tetriminos, new, size, new_placed, solution);
+				free(new);
+				free(new_placed);
+				if (if_solution == 1)
+				{
+					return (1);
+				}
+			}
+
+			result = 0;
+			new = copy_matrix(matrix);
+			next = get_next_coordinate(*new, next.row, next.column);
+			while (!result)
+			{
+				//ft_putnbr(i);
+				//ft_putendl("here");
+				result = place_tetro(next, new, tetriminos->array[i]);
+				next = get_next_coordinate(*new, next.row, next.column);
+			}
+			new_placed = update_placed(placed, i, tetriminos->size);
+			//ft_putnbr(calculate_size(*new));
+			//ft_putendl("size");
+			ft_putnbr(size);
+			ft_putendl("");
+			print_matrix(*new);
+			if (calculate_size(*new) <= size)
+			{
+				if (all_placed(new_placed, tetriminos->size) == 1)
+				{
+					save_solution(*new, solution);
+					return (1);
+				}
+				if_solution = put_tetrimino(tetriminos, new, size, new_placed, solution);
+				free(new);
+				free(new_placed);
+				if (if_solution == 1)
+				{
+					return (1);
+				}
+			}
+
+
 		}
+		if (size == 6)
+			sleep(1);
+		i++;
 	}
+	return (0);
+}
+
+int	if_placed(int index, int *placed, int size)
+{
+	int i = 0;
+
+	while (i < size)
+	{
+		if (placed[i] == index)
+			return (1);
+		i++;
+	}
+	return (0);
+}
+
+int *create_placed(int size)
+{
+	int i = 0;
+	int *placed = (int *)malloc(sizeof(int) * (size + 1));
+	while (i < size + 1)
+	{
+		placed[i] = -1;
+		i++;
+	}
+	return (placed);
+}
+
+int *update_placed(int *placed, int index, int size)
+{
+	int i = 0;
+	int *new = (int *)malloc(sizeof(int) * (size + 1));
+	while (placed[i] != -1)
+	{
+		new[i] = placed[i];
+		i++;
+	}
+	new[i] = index;
+	i++;
+	while (i < size + 1)
+	{
+		new[i] = placed[i];
+		i++;
+	}
+	return (new);
+}
+
+int	all_placed(int *placed, int size)
+{
+	int i = 0;
+	while (placed[i] != -1)
+		i++;
+	if (i == size)
+		return (1);
+	return (0);
 }
 
 //4*3*2*1
 
-t_matrix copy_matrix(t_matrix old)
+t_matrix *copy_matrix(t_matrix *old)
 {
-    t_matrix new;
+    t_matrix *new;
 
     int i = 0;
     int j = 0;
 
-    new.grid = (char **)malloc(sizeof(char *) * old.size);
-	new.size = old.size;
-    while (i < new.size)
+	new = (t_matrix *)malloc(sizeof(t_matrix));
+    new->grid = (char **)malloc(sizeof(char *) * old->size);
+	new->size = old->size;
+    while (i < new->size)
     {
         j = 0;
-		new.grid[i] = (char *)malloc(sizeof(char) * new.size);
-        while (j < new.size)
+		new->grid[i] = (char *)malloc(sizeof(char) * new->size);
+        while (j < new->size)
         {
-            new.grid[i][j] = old.grid[i][j];
+            new->grid[i][j] = old->grid[i][j];
             j++;
         }
         i++;

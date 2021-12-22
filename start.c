@@ -23,22 +23,24 @@ void print_matrix(t_matrix matrix)
     }
 }
 
-t_matrix create_matrix(int size)
+t_matrix *create_matrix(int size)
 {
-    t_matrix matrix;
+    t_matrix *matrix;
 
     int i = 0;
     int j = 0;
 
-    matrix.size = size;
-    matrix.grid = (char **)malloc(sizeof(char *) * size);
+	matrix = (t_matrix *)malloc(sizeof(t_matrix));
+
+    matrix->size = size;
+    matrix->grid = (char **)malloc(sizeof(char *) * size);
     while (i < size)
     {
         j = 0;
-        matrix.grid[i] = (char *)malloc(sizeof(char) * size);
+        matrix->grid[i] = (char *)malloc(sizeof(char) * size);
         while (j < size)
         {
-            matrix.grid[i][j] = '.';
+            matrix->grid[i][j] = '.';
             j++;
         }
         i++;
@@ -46,32 +48,32 @@ t_matrix create_matrix(int size)
     return (matrix);
 }
 
-void solve(t_tetr *tetros)
-{
-	int i;
-	int res;
+// void solve(t_tetr *tetros)
+// {
+// 	int i;
+// 	int res;
 
-	i = 0;
-	t_point start;
-	t_solution *solution;
-    t_matrix matrix = create_matrix(8);
-	get_next_coordinate(matrix, 0, 0);
-	while (i < 4)
-	{
-		res = 0;
-		start.row = 0;
-		start.column = 0;
-		while (res == 0)
-		{
-			res = place_tetro(start, &matrix, tetros[i]);
-			start = get_next_coordinate(matrix, start.row, start.column);
-		}
-		i++;
-	}
-	print_matrix(matrix);
-	solution = NULL;
-	solution = save_solution(matrix, solution);
-	printf("%d\n", solution->size);
+// 	i = 0;
+// 	t_point start;
+// 	t_solution *solution;
+//     t_matrix matrix = create_matrix(8);
+// 	get_next_coordinate(matrix, 0, 0);
+// 	while (i < 4)
+// 	{
+// 		res = 0;
+// 		start.row = 0;
+// 		start.column = 0;
+// 		while (res == 0)
+// 		{
+// 			res = place_tetro(start, &matrix, tetros[i]);
+// 			start = get_next_coordinate(matrix, start.row, start.column);
+// 		}
+// 		i++;
+// 	}
+// 	print_matrix(matrix);
+// 	solution = NULL;
+// 	solution = save_solution(matrix, solution);
+// 	printf("%d\n", solution->size);
 //	printf("TL: %d,BL: %d \n", solution->top_left, solution->bottom_left, solution->top_right);
 
 	// printf("%d\n", place_tetro(start, &matrix, tetros[0]));
@@ -92,7 +94,7 @@ void solve(t_tetr *tetros)
 //        }
 //        i++;
 //   }
-}
+// }
 
 int main(int argc, char **argv)
 {
@@ -112,7 +114,14 @@ int main(int argc, char **argv)
 	//solve(tetrimino);
 	t_solution *solution;
 	solution = NULL;
-	find_best(&tetrimino, 16, solution);
+	int size = 4;
+	while (find_best(&tetrimino, size, solution) == 0 && size < 6)
+	{
+		
+		size++;
+		ft_putnbr(size);
+		ft_putendl("size changed");
+	}
 	print_matrix(solution->matrix);
     return (0);
 }
