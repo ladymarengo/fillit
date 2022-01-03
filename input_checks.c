@@ -32,7 +32,7 @@ int ft_linesandchar(char *s)
 		}
 		i++;
 	}
-	if (i % 21 != 0 || lines % 4 != 0 || tetraminos > 36)
+	if (i % 21 != 0 || lines % 4 != 0 || tetraminos > 26)
 		return (-1);
 	printf("Checked input\n");
 	return (1);
@@ -59,7 +59,7 @@ int	ft_check_tetros(char *s)
 		if (s[i] == '\n' && s[i + 1] == '\n')
 		{
 			if (connection == 6 || connection == 8)
-				connection = 0;
+				return (1);
 			else
 				return (-1);
 		}
