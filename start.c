@@ -106,22 +106,25 @@ int main(int argc, char **argv)
     buffer[chars] = '\0';
     close(file);
     t_tetr_array tetrimino = parse_input(buffer);
-    for (int i = 0; i < (ft_strlen(buffer) + 1) / 21; i++)
-    {
-        print_tetrimino(tetrimino.array[i]);
-        ft_putchar('\n');
-    }
+    // for (int i = 0; i < (ft_strlen(buffer) + 1) / 21; i++)
+    // {
+    //     print_tetrimino(tetrimino.array[i]);
+    //     ft_putchar('\n');
+    // }
 	//solve(tetrimino);
-	t_solution *solution;
-	solution = NULL;
+	// t_solution *solution;
+	// solution = NULL;
 	int size = 4;
-	while (find_best(&tetrimino, size, solution) == 0 && size < 6)
+	argc = 3;
+	
+	ft_putnbr(tetrimino.size);
+	ft_putchar('\n');
+	while (find_best(&tetrimino, size) == 0)
 	{
 		
 		size++;
-		ft_putnbr(size);
-		ft_putendl("size changed");
+		// ft_putnbr(size);
+		// ft_putendl("size changed");
 	}
-	print_matrix(solution->matrix);
     return (0);
 }
