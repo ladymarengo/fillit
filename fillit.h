@@ -59,16 +59,13 @@ t_matrix	*copy_matrix(t_matrix *old);
 int			copy_tetr(char *buffer, int index, t_tetr *tetr, int i);
 t_point		find_tetropoint(t_tetr tetro);
 int			ft_linesandchar(char *s);
-// int			calculate_size(t_matrix matrix);
 int			place_tetro(t_point start, t_matrix *matrix, t_tetr tetro);
-// void		save_solution(t_matrix matrix, t_solution *solution);
-// void		calculate_corners(t_matrix matrix, t_solution *solution);
 int			find_best(t_tetr_array *tetriminos, int size);
 int			put_tetrimino(t_tetr_array *tetriminos, t_matrix *matrix, int size, int index);
-// int			*update_placed(int *placed, int index, int size);
-// int			*create_placed(int size);
-// int			if_placed(int index, int *placed, int size);
-// int			all_placed(int *placed, int size);
 int			remove_tetro(t_point start, t_matrix *matrix, t_tetr tetro);
+int			check_tetro(t_point start, t_matrix *matrix, t_tetr tetro);
+void		free_matrix(t_matrix *matrix);
+void		free_tetriminos(t_tetr *tetriminos, char *buffer, int i, int row);
+void		end_game(t_tetr_array *tetriminos, t_matrix *matrix);
 
 #endif

@@ -1,27 +1,31 @@
 #include "fillit.h"
 
 
-int	copy_tetr(char *buffer, int index, t_tetr *tetr, int i)
+int	copy_tetr(char *buffer, int index, t_tetr *tetriminos, int i)
 {
 	int	row;
 	int	letter;
 
 	row = 0;
-	tetr->grid = (char **)malloc(sizeof(char *) * 4);
+	tetriminos[i].grid = (char **)malloc(sizeof(char *) * 4);
+	if (!tetriminos[i].grid)
+		free_tetriminos(tetriminos, buffer, i - 1, 3);
 	while (row < 4)
 	{
-		tetr->grid[row] = (char *)malloc(sizeof(char) * 5);
+		tetriminos[i].grid[row] = (char *)malloc(sizeof(char) * 5);
+		if (!tetriminos[i].grid[row])
+			free_tetriminos(tetriminos, buffer, i, row - 1);
 		letter = 0;
 		while (letter < 4)
 		{
-			tetr->grid[row][letter] = buffer[index];
+			tetriminos[i].grid[row][letter] = buffer[index];
 			index++;
 			letter++;
 		}
 		index++;
 		row++;
 	}
-	tetr->symbol = 'A' + i;
+	tetriminos[i].symbol = 'A' + i;
 	return (index);
 }
 
@@ -37,14 +41,20 @@ t_tetr_array	parse_input(char *buffer)
 	index = 0;
 	amount = (ft_strlen(buffer) + 1) / 21;
 	tetriminos = (t_tetr *)malloc(sizeof(t_tetr) * amount + 1);
+	if (!tetriminos)
+	{
+		free(buffer);
+		exit(-1);
+	}
 	while (i < amount)
 	{
-		index = copy_tetr(buffer, index, &(tetriminos[i]), i);
+		index = copy_tetr(buffer, index, tetriminos, i);
 		index++;
 		i++;
 	}
 	array.array = tetriminos;
 	array.size = amount;
+	free(buffer);
 	return (array);
 }
 
@@ -65,21 +75,3 @@ void    print_tetrimino(t_tetr tetr)
         i++;
     }
 }
-
-// int main(int argc, char **argv)
-// {
-//     int		chars;
-//     int file;
-//     char	*buffer = (char *)malloc(sizeof(char) * 1000);
-//     file = open(argv[1], O_RDONLY);
-//     chars = read(file, buffer, 1000);
-//     buffer[chars] = '\0';
-//     close(file);
-//     t_tetr *tetrimino = parse_input(buffer);
-//     for (int i = 0; i < (ft_strlen(buffer) + 1) / 21; i++)
-//     {
-//         print_tetrimino(tetrimino[i]);
-//         ft_putchar('\n');
-//     }
-//     return (0);
-// }
