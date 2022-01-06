@@ -1,19 +1,19 @@
-#include <stdio.h>
-#include <fcntl.h>
-#include <stdlib.h>
-#include <sys/types.h>
-#include <sys/uio.h>
-#include <unistd.h>
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   input_checks.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: nsamoilo <nsamoilo@student.hive.fi>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/01/06 13:32:55 by nsamoilo          #+#    #+#             */
+/*   Updated: 2022/01/06 13:51:32 by nsamoilo         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-/*changed location of count check, so checks if number of #'s is exactly 4 after each tetramino*/
+#include "fillit.h"
 
-int ft_linesandchar(char *s)
+int	ft_linesandchar(char *s, int i, int count, int lines)
 {
-	int i = 0;
-	int count = 0;
-	int lines = 0;
-	int tetraminos = 0;
-
 	while (s[i] != '\0')
 	{
 		if (s[i] != '#' && s[i] != '.' && s[i] != '\n')
@@ -28,88 +28,52 @@ int ft_linesandchar(char *s)
 			{
 				if (count != 4)
 					return (-1);
-				tetraminos++;
 				count = 0;
 			}
 		}
 		i++;
 	}
 	i++;
-	if (i % 21 != 0 || lines % 4 != 0 || tetraminos > 26)
+	if (i % 21 != 0 || lines % 4 != 0)
 		return (-1);
-	printf("Checked input\n");
 	return (1);
 }
 
-/*changed index, and added offset to cut down connections from other tetraminos, its again way too big for norminette*/
-/*but it passed all the testmaps i had, you could try to break it.
-also i have no clue why condition i + 5 < j works, but i + 5 <= j doesn't? (lines 62 to 65)
-EDIT: OH i guess its since offset is already at 21, and last tetramino wont have that many? u could still break it if u find a way*/
-int	ft_check_tetros(char *s)
+int	ft_check_tetros(char *s, int i, int connection, int k)
 {
-	int i;
-	int connection;
-	int j;
-	int k;
+	int	j;
 
-	i = 0;
-	connection = 0;
-	k = 0;
 	j = 21;
 	while (s[i] != '\0')
 	{
 		if (s[i] == '#')
 		{
-			if (s[i + 1] == '#' && i + 1 < j)
-				connection++;
-			if (s[i + 5] == '#' && i + 5 < j)
-				connection++;
 			if (s[i - 1] == '#' && i - 1 >= k)
 				connection++;
 			if (s[i - 5] == '#' && i - 5 >= k)
 				connection++;
 		}
-		if (s[i] == '\n' && s[i + 1] == '\n' || s[i] == '\n' && s[i + 1] == '\0')
+		if ((s[i] == '\n' && s[i + 1] == '\n')
+			|| (s[i] == '\n' && s[i + 1] == '\0'))
 		{
-			if (connection == 6 || connection == 8)
-			{
-				j = j + 21;
-				k = k + 21;
-				connection = 0;
-			}
-			else
+			if (connection != 3 && connection != 4)
 				return (-1);
+			j = j + 21;
+			k = k + 21;
+			connection = 0;
 		}
 		i++;
 	}
-	printf ("checked if tetros are connected\n");
 	return (1);
 }
 
-//void print_error(char *str)
-//{
-//	write (2, &str, ft_strlen(str));
-//	str++;
-//}
-
-int main(int argc, char **argv)
+void	check_input(char *buffer)
 {
-   int		chars;
-   int file;
-	char	*buffer = (char *)malloc(sizeof(char) * 1000);
-	int ret = 0;
-
-   file = open(argv[1], O_RDONLY);
-   chars = read(file, buffer, 1000);
-   buffer[chars] = '\0';
-	if (ft_linesandchar(buffer) != 1 || ft_check_tetros(buffer) != 1)
-		printf ("invalid input");
-   close(file);
-//   t_tetr *tetrimino = parse_input(buffer);
-//   for (int i = 0; i < (ft_strlen(buffer) + 1) / 21; i++)
-//   {
-//       print_tetrimino(tetrimino[i]);
-//       ft_putchar('\n');
-//   }
-   return (0);
+	if (ft_linesandchar(buffer, 0, 0, 0) != 1
+		|| ft_check_tetros(buffer, 0, 0, 0) != 1)
+	{
+		ft_putendl("error");
+		free(buffer);
+		exit(-1);
+	}
 }

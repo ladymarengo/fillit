@@ -6,7 +6,7 @@
 /*   By: nsamoilo <nsamoilo@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/06 11:21:50 by nsamoilo          #+#    #+#             */
-/*   Updated: 2022/01/06 12:33:57 by nsamoilo         ###   ########.fr       */
+/*   Updated: 2022/01/06 13:55:59 by nsamoilo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,13 +45,15 @@ int	main(int argc, char **argv)
 	buffer = (char *)malloc(sizeof(char) * 1000);
 	file = open(argv[1], O_RDONLY);
 	chars = read(file, buffer, 1000);
-	if (chars > 900 || chars < 1)
+	if (chars > 547 || chars < 1)
 	{
+		ft_putendl("error");
 		free(buffer);
 		return (-1);
 	}
 	buffer[chars] = '\0';
 	close(file);
+	check_input(buffer);
 	tetrimino = parse_input(buffer);
 	size = find_size(tetrimino.size);
 	while (find_best(&tetrimino, size) == 0)
