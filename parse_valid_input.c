@@ -1,5 +1,16 @@
-#include "fillit.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parse_valid_input.c                                :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: nsamoilo <nsamoilo@student.hive.fi>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/01/06 11:32:45 by nsamoilo          #+#    #+#             */
+/*   Updated: 2022/01/06 11:34:22 by nsamoilo         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
+#include "fillit.h"
 
 int	copy_tetr(char *buffer, int index, t_tetr *tetriminos, int i)
 {
@@ -31,11 +42,11 @@ int	copy_tetr(char *buffer, int index, t_tetr *tetriminos, int i)
 
 t_tetr_array	parse_input(char *buffer)
 {
-	t_tetr	*tetriminos;
-	t_tetr_array array;
-	int		i;
-	int		index;
-	int		amount;
+	t_tetr			*tetriminos;
+	t_tetr_array	array;
+	int				i;
+	int				index;
+	int				amount;
 
 	i = 0;
 	index = 0;
@@ -58,20 +69,22 @@ t_tetr_array	parse_input(char *buffer)
 	return (array);
 }
 
-void    print_tetrimino(t_tetr tetr) 
+void	print_tetrimino(t_tetr tetr)
 {
-    int i = 0;
-    int j = 0;
+	int	i;
+	int	j;
 
-    while (i < 4)
-    {
-        j = 0;
-        while (j < 4)
-        {
-            ft_putchar(tetr.grid[i][j]);
-            j++;
-        }
-        ft_putchar('\n');
-        i++;
-    }
+	i = 0;
+	j = 0;
+	while (i < 4)
+	{
+		j = 0;
+		while (j < 4)
+		{
+			ft_putchar(tetr.grid[i][j]);
+			j++;
+		}
+		ft_putchar('\n');
+		i++;
+	}
 }
