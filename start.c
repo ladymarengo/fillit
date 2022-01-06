@@ -6,7 +6,7 @@
 /*   By: nsamoilo <nsamoilo@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/06 11:21:50 by nsamoilo          #+#    #+#             */
-/*   Updated: 2022/01/06 11:36:37 by nsamoilo         ###   ########.fr       */
+/*   Updated: 2022/01/06 12:33:57 by nsamoilo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,18 @@ void	error_exit(int argc)
 		ft_putendl("usage: the number of parameters should be one");
 		exit(-1);
 	}
+}
+
+int	find_size(int amount)
+{
+	int	size;
+
+	size = 1;
+	while (size * size < amount * 4)
+	{
+		size++;
+	}
+	return (size);
 }
 
 int	main(int argc, char **argv)
@@ -41,7 +53,7 @@ int	main(int argc, char **argv)
 	buffer[chars] = '\0';
 	close(file);
 	tetrimino = parse_input(buffer);
-	size = 3;
+	size = find_size(tetrimino.size);
 	while (find_best(&tetrimino, size) == 0)
 		size++;
 	return (0);
