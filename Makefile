@@ -6,7 +6,7 @@
 #    By: nsamoilo <nsamoilo@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/01/06 14:06:55 by nsamoilo          #+#    #+#              #
-#    Updated: 2022/01/06 14:07:42 by nsamoilo         ###   ########.fr        #
+#    Updated: 2022/01/06 14:30:01 by nsamoilo         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,9 +18,10 @@ OBJECTS = $(patsubst %, %.o, $(FUNCTIONS))
 all: $(NAME)
 
 $(NAME):
+	make -C libft/
 	gcc -Wall -Wextra -Werror -c $(FILES)
-	ar rc $(NAME) $(OBJECTS)
-	ranlib $(NAME)
+	gcc -Wall -Werror -Wextra $(OBJECTS) libft/libft.a -o $(NAME)
+	make fclean -C libft/
 
 clean:
 	rm -f $(OBJECTS)
@@ -29,8 +30,3 @@ fclean: clean
 	rm -rf $(NAME)
 
 re: fclean all
-
-test:
-	@for function in $(FUNCTIONS) ; do \
-		./eval_tests/tests.sh $$function ; \
-	done
