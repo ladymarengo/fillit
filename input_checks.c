@@ -22,19 +22,20 @@ int	ft_linesandchar(char *s, int i, int count, int lines)
 			count++;
 		if (s[i] == '\n')
 		{
-			if (s[i + 1] != '\n')
+			if (s[i - 1] != '\n')
 				lines++;
 			if (s[i + 1] == '\n' || s[i + 1] == '\0')
 			{
-				if (count != 4)
+				if (count != 4 || lines != 4)
 					return (-1);
 				count = 0;
+				lines = 0;
 			}
 		}
 		i++;
 	}
 	i++;
-	if (i % 21 != 0 || lines % 4 != 0)
+	if (i % 21 != 0)
 		return (-1);
 	return (1);
 }

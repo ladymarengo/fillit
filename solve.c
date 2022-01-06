@@ -14,28 +14,24 @@
 
 t_point	get_next_coordinate(t_matrix m, int row, int column)
 {
-	int		i;
 	t_point	point;
 
-	i = row + column;
 	point.row = -1;
 	point.column = -1;
-	while (i < m.size * 2 - 1)
+	while (row < m.size)
 	{
-		while (column >= 0)
+		while (column < m.size)
 		{
-			if (row < m.size && column < m.size && m.grid[row][column] == '.')
+			if (m.grid[row][column] == '.')
 			{
 				point.row = row;
 				point.column = column;
 				return (point);
 			}
-			row++;
-			column--;
+			column++;
 		}
-		i++;
-		column = i;
-		row = 0;
+		row++;
+		column = 0;
 	}
 	return (point);
 }
@@ -64,7 +60,7 @@ int	put_tetrimino(t_tetr_array *tetros, t_matrix *matrix, int size, int index)
 			}
 			remove_tetro(next, matrix, tetros->array[index]);
 		}
-		next = get_next_coordinate(*matrix, next.row + 1, next.column - 1);
+		next = get_next_coordinate(*matrix, next.row, next.column + 1);
 	}
 	return (0);
 }
