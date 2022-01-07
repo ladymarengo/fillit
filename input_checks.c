@@ -6,13 +6,13 @@
 /*   By: nsamoilo <nsamoilo@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/06 13:32:55 by nsamoilo          #+#    #+#             */
-/*   Updated: 2022/01/06 13:51:32 by nsamoilo         ###   ########.fr       */
+/*   Updated: 2022/01/07 17:31:57 by nsamoilo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fillit.h"
 
-int	ft_linesandchar(char *s, int i, int count, int lines)
+int	ft_lines_and_char(char *s, int i, int count, int lines)
 {
 	while (s[i] != '\0')
 	{
@@ -70,7 +70,7 @@ int	ft_check_tetros(char *s, int i, int connection, int k)
 
 void	check_input(char *buffer)
 {
-	if (ft_linesandchar(buffer, 0, 0, 0) != 1
+	if (ft_lines_and_char(buffer, 0, 0, 0) != 1
 		|| ft_check_tetros(buffer, 0, 0, 0) != 1)
 	{
 		ft_putendl("error");

@@ -6,7 +6,7 @@
 /*   By: nsamoilo <nsamoilo@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/06 11:32:45 by nsamoilo          #+#    #+#             */
-/*   Updated: 2022/01/06 11:34:22 by nsamoilo         ###   ########.fr       */
+/*   Updated: 2022/01/07 17:32:18 by nsamoilo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,24 +67,4 @@ t_tetr_array	parse_input(char *buffer)
 	array.size = amount;
 	free(buffer);
 	return (array);
-}
-
-void	print_tetrimino(t_tetr tetr)
-{
-	int	i;
-	int	j;
-
-	i = 0;
-	j = 0;
-	while (i < 4)
-	{
-		j = 0;
-		while (j < 4)
-		{
-			ft_putchar(tetr.grid[i][j]);
-			j++;
-		}
-		ft_putchar('\n');
-		i++;
-	}
 }
