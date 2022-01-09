@@ -6,7 +6,7 @@
 /*   By: nsamoilo <nsamoilo@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/06 11:34:37 by nsamoilo          #+#    #+#             */
-/*   Updated: 2022/01/06 12:11:21 by nsamoilo         ###   ########.fr       */
+/*   Updated: 2022/01/09 18:21:01 by nsamoilo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,12 +36,12 @@ void	print_matrix(t_matrix matrix)
 	}
 }
 
-void	free_matrix(t_matrix *matrix)
+void	free_matrix(t_matrix *matrix, int row)
 {
 	int	i;
 
 	i = 0;
-	while (i < matrix->size)
+	while (i < row)
 	{
 		free(matrix->grid[i]);
 		i++;
@@ -72,7 +72,7 @@ void	free_tetriminos(t_tetr *tetriminos, char *buffer, int i, int row)
 void	end_game(t_tetr_array *tetriminos, t_matrix *matrix)
 {
 	print_matrix(*matrix);
-	free_matrix(matrix);
+	free_matrix(matrix, matrix->size);
 	free_tetriminos(tetriminos->array, NULL, tetriminos->size - 1, 3);
 	exit(0);
 }

@@ -6,11 +6,27 @@
 /*   By: nsamoilo <nsamoilo@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/06 11:32:45 by nsamoilo          #+#    #+#             */
-/*   Updated: 2022/01/07 17:32:18 by nsamoilo         ###   ########.fr       */
+/*   Updated: 2022/01/09 18:13:14 by nsamoilo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fillit.h"
+
+void	find_equal(t_tetr *tetriminos, int index, t_tetr *current)
+{
+	current->prev = index + 1;
+	while (index >= 0)
+	{
+		if (check_equal(find_tetropoint(*current),
+				find_tetropoint(tetriminos[index]), *current,
+				tetriminos[index]))
+		{
+			current->prev = index;
+			return ;
+		}
+		index--;
+	}
+}
 
 int	copy_tetr(char *buffer, int index, t_tetr *tetriminos, int i)
 {
@@ -59,8 +75,8 @@ t_tetr_array	parse_input(char *buffer)
 	}
 	while (i < amount)
 	{
-		index = copy_tetr(buffer, index, tetriminos, i);
-		index++;
+		index = copy_tetr(buffer, index, tetriminos, i) + 1;
+		find_equal(tetriminos, i - 1, &tetriminos[i]);
 		i++;
 	}
 	array.array = tetriminos;

@@ -6,7 +6,7 @@
 /*   By: nsamoilo <nsamoilo@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/06 11:37:13 by nsamoilo          #+#    #+#             */
-/*   Updated: 2022/01/06 11:55:28 by nsamoilo         ###   ########.fr       */
+/*   Updated: 2022/01/09 18:11:04 by nsamoilo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,6 +116,33 @@ int	remove_tetro(t_point start, t_matrix *matrix, t_tetr tetro)
 				pos.row = start.row + j - tetropoint.row;
 				pos.column = start.column + i - tetropoint.column;
 				matrix->grid[pos.row][pos.column] = '.';
+			}
+			i++;
+		}
+		i = 0;
+		j++;
+	}
+	return (1);
+}
+
+int	check_equal(t_point first_p, t_point second_p,
+	t_tetr first_t, t_tetr second_t)
+{
+	int		i;
+	int		j;
+
+	i = first_p.column;
+	j = first_p.row;
+	while (j < 4)
+	{
+		while (i < 4)
+		{
+			if (first_t.grid[j][i] == '#' && (second_p.column + i -
+				first_p.column >= 4 || second_p.row + j - first_p.row >= 4 ||
+				second_t.grid[second_p.row + j -
+				first_p.row][second_p.column + i - first_p.column] != '#'))
+			{
+				return (0);
 			}
 			i++;
 		}

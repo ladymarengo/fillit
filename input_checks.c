@@ -6,7 +6,7 @@
 /*   By: nsamoilo <nsamoilo@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/06 13:32:55 by nsamoilo          #+#    #+#             */
-/*   Updated: 2022/01/07 17:31:57 by nsamoilo         ###   ########.fr       */
+/*   Updated: 2022/01/09 18:32:50 by nsamoilo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,9 +42,6 @@ int	ft_lines_and_char(char *s, int i, int count, int lines)
 
 int	ft_check_tetros(char *s, int i, int connection, int k)
 {
-	int	j;
-
-	j = 21;
 	while (s[i] != '\0')
 	{
 		if (s[i] == '#')
@@ -59,7 +56,6 @@ int	ft_check_tetros(char *s, int i, int connection, int k)
 		{
 			if (connection != 3 && connection != 4)
 				return (-1);
-			j = j + 21;
 			k = k + 21;
 			connection = 0;
 		}
