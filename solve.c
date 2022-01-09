@@ -6,7 +6,7 @@
 /*   By: nsamoilo <nsamoilo@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/06 11:20:15 by nsamoilo          #+#    #+#             */
-/*   Updated: 2022/01/09 18:34:59 by nsamoilo         ###   ########.fr       */
+/*   Updated: 2022/01/09 18:44:06 by nsamoilo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,7 +122,7 @@ int	find_best(t_tetr_array *tetriminos, int size)
 	if (!new || create_matrix(new, size, 0, 0) == -1)
 	{
 		free_tetriminos(tetriminos->array, NULL, tetriminos->size - 1, 3);
-		return (-1);
+		exit(-1);
 	}
 	new->size = size;
 	put_tetrimino(tetriminos, new, size, 0);
