@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fillit.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nsamoilo <nsamoilo@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: jrummuka <jrummuka@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/06 11:56:33 by nsamoilo          #+#    #+#             */
-/*   Updated: 2022/01/12 19:32:11 by nsamoilo         ###   ########.fr       */
+/*   Updated: 2022/01/12 20:01:24 by jrummuka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ t_point			find_tetropoint(t_tetr tetro);
 int				place_tetro(t_point start, t_matrix *m, t_tetr t, t_point p);
 int				find_best(t_tetr_array *tetriminos, int size);
 int				remove_tetro(t_point start, t_matrix *matrix, t_tetr tetro);
-int				check_tetro(t_point start, t_matrix *m, t_tetr t, t_point p);
+int				check_tetro(t_point start, t_matrix *m, t_tetr t);
 void			free_matrix(t_matrix *matrix, int row);
 void			free_tetriminos_and_exit(t_tetr *tetros, int i, int row, int s);
 void			end_game(t_tetr_array *tetriminos, t_matrix *matrix);

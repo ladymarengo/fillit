@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   solve.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nsamoilo <nsamoilo@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: jrummuka <jrummuka@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/06 11:20:15 by nsamoilo          #+#    #+#             */
-/*   Updated: 2022/01/12 19:46:59 by nsamoilo         ###   ########.fr       */
+/*   Updated: 2022/01/12 20:01:01 by jrummuka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,17 +69,16 @@ void	put_tetrimino(t_tetr_array *tetros,
 	if (index == tetros->size)
 		end_game(tetros, matrix);
 	next.row = 0;
+	next.column = 0;
 	if (tetros->array[index].prev != index)
 		find_start_coordinate(matrix, tetros, index, &next);
 	while (next.row < matrix->size)
 	{
-		next.column = 0;
 		while (next.column < matrix->size)
 		{
 			if (matrix->grid[next.row][next.column] == '.')
 			{
-				if (check_tetro(next, matrix, tetros->array[index],
-						tetros->array[index].start) == 1)
+				if (check_tetro(next, matrix, tetros->array[index]) == 1)
 				{
 					put_tetrimino(tetros, matrix, size, index + 1);
 					remove_tetro(next, matrix, tetros->array[index]);
@@ -87,6 +86,7 @@ void	put_tetrimino(t_tetr_array *tetros,
 			}
 			next.column++;
 		}
+		next.column = 0;
 		next.row++;
 	}
 }
