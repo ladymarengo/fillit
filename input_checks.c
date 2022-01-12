@@ -3,29 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   input_checks.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jrummuka <jrummuka@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: nsamoilo <nsamoilo@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/06 13:32:55 by nsamoilo          #+#    #+#             */
-/*   Updated: 2022/01/11 10:58:55 by jrummuka         ###   ########.fr       */
+/*   Updated: 2022/01/12 19:37:03 by nsamoilo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fillit.h"
-
-// int	size_check(char *s)
-// {
-// 	int	i;
-
-// 	i = 0;
-// 	while (s[i] != '\0')
-// 	{
-// 		i++;
-// 	}
-// 	i++;
-// 	if (i % 21 != 0)
-// 		return (-1);
-// 	return (1);
-// }
 
 int	ft_lines_and_char(char *s, int i, int count, int lines)
 {
@@ -87,7 +72,6 @@ void	check_input(char *buffer)
 		|| (ft_strlen(buffer) + 1) % 21 != 0)
 	{
 		ft_putendl("error");
-		free(buffer);
 		exit(-1);
 	}
 }

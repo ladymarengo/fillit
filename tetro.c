@@ -6,7 +6,7 @@
 /*   By: nsamoilo <nsamoilo@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/06 11:37:13 by nsamoilo          #+#    #+#             */
-/*   Updated: 2022/01/09 18:11:04 by nsamoilo         ###   ########.fr       */
+/*   Updated: 2022/01/12 18:52:15 by nsamoilo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,27 +18,23 @@ int	place_tetro(t_point start, t_matrix *matrix, t_tetr tetro, t_point point)
 	int		j;
 	t_point	pos;
 
-	if (check_tetro(start, matrix, tetro, point))
+	i = point.column;
+	j = point.row;
+	while (j++ < 4)
 	{
-		i = point.column;
-		j = point.row;
-		while (j++ < 4)
+		while (i < 4)
 		{
-			while (i < 4)
+			if (tetro.grid[j - 1][i] == '#')
 			{
-				if (tetro.grid[j - 1][i] == '#')
-				{
-					pos.row = start.row + j - 1 - point.row;
-					pos.column = start.column + i - point.column;
-					matrix->grid[pos.row][pos.column] = tetro.symbol;
-				}
-				i++;
+				pos.row = start.row + j - 1 - point.row;
+				pos.column = start.column + i - point.column;
+				matrix->grid[pos.row][pos.column] = tetro.symbol;
 			}
-			i = 0;
+			i++;
 		}
-		return (1);
+		i = 0;
 	}
-	return (0);
+	return (1);
 }
 
 int	check_tetro(t_point start, t_matrix *matrix, t_tetr tetro, t_point point)
@@ -67,7 +63,7 @@ int	check_tetro(t_point start, t_matrix *matrix, t_tetr tetro, t_point point)
 		i = 0;
 		j++;
 	}
-	return (1);
+	return (place_tetro(start, matrix, tetro, point));
 }
 
 t_point	find_tetropoint(t_tetr tetro)
