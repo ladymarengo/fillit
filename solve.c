@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   solve.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jrummuka <jrummuka@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: nsamoilo <nsamoilo@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/06 11:20:15 by nsamoilo          #+#    #+#             */
-/*   Updated: 2022/01/12 20:01:01 by jrummuka         ###   ########.fr       */
+/*   Updated: 2022/01/13 12:22:10 by nsamoilo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,30 +35,6 @@ void	find_start_coordinate(t_matrix *m, t_tetr_array *tetros,
 		}
 		i++;
 	}
-}
-
-t_point	get_next_coordinate(t_matrix m, int row, int column)
-{
-	t_point	point;
-
-	point.row = -1;
-	point.column = -1;
-	while (row < m.size)
-	{
-		while (column < m.size)
-		{
-			if (m.grid[row][column] == '.')
-			{
-				point.row = row;
-				point.column = column;
-				return (point);
-			}
-			column++;
-		}
-		row++;
-		column = 0;
-	}
-	return (point);
 }
 
 void	put_tetrimino(t_tetr_array *tetros,

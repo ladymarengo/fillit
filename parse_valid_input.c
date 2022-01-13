@@ -6,11 +6,63 @@
 /*   By: nsamoilo <nsamoilo@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/06 11:32:45 by nsamoilo          #+#    #+#             */
-/*   Updated: 2022/01/12 19:33:33 by nsamoilo         ###   ########.fr       */
+/*   Updated: 2022/01/13 12:31:03 by nsamoilo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fillit.h"
+
+t_point	find_tetropoint(t_tetr tetro)
+{
+	int		i;
+	int		j;
+	t_point	tetropoint;
+
+	tetropoint.row = 0;
+	tetropoint.column = 0;
+	j = 0;
+	while (j < 4)
+	{
+		i = 0;
+		while (i < 4)
+		{
+			if (tetro.grid[j][i] == '#')
+			{
+				tetropoint.row = j;
+				tetropoint.column = i;
+				return (tetropoint);
+			}
+			i++;
+		}
+		j++;
+	}
+	return (tetropoint);
+}
+
+int	check_equal(t_point first_p, t_point second_p,
+	t_tetr first_t, t_tetr second_t)
+{
+	int		i;
+	int		j;
+
+	i = first_p.column;
+	j = first_p.row;
+	while (j < 4)
+	{
+		while (i < 4)
+		{
+			if (first_t.grid[j][i] == '#' && (second_p.column + i -
+				first_p.column >= 4 || second_p.row + j - first_p.row >= 4 ||
+				second_t.grid[second_p.row + j -
+				first_p.row][second_p.column + i - first_p.column] != '#'))
+				return (0);
+			i++;
+		}
+		i = 0;
+		j++;
+	}
+	return (1);
+}
 
 void	find_equal(t_tetr *tetriminos, int index, t_tetr *current)
 {
